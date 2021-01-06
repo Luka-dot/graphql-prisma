@@ -6,6 +6,7 @@ import Subscription from './resolvers/subscription'
 import User from './resolvers/User'
 import Post from './resolvers/Post'
 import Comment from './resolvers/Comment'
+import './prisma'    // just running the file
 
 // Spread operators plug in:  https://www.npmjs.com/package/babel-plugin-transform-object-rest-spread
 
