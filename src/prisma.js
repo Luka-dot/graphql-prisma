@@ -7,6 +7,54 @@ const prisma = new Prisma({
     endpoint: 'http://localhost:4466/'
 })
 
+const createPostForUser = async (authorId, data) => {
+    const post = await prisma.mutation.createPost({
+        data: {
+            ...data,
+            author: {
+                connect: {
+                    id: authorId
+                }
+            }
+        }
+    }, '{ id }')
+    const user = await prisma.query.user({
+        where: {
+            id: authorId
+        }
+    }, "{ id name email posts { id title published } }")
+    return user
+}
+
+// createPostForUser('ckjli8tkb000n08083i7a9mjf', {
+//     title: 'List of things',
+//     body: 'no books yet !',
+//     published: true
+// }).then((user) => {
+//     console.log(JSON.stringify(user, undefined, 2))
+// })
+
+const updatePostForUser = async (postId, data) => {
+    const post = await prisma.mutation.updatePost({
+        where: {
+            id: postId
+        },
+        data
+    }, '{ author { id } }')
+    const user = await prisma.query.user({
+        where: {
+            id: post.author.id
+        }
+    }, '{ id email posts { id text body } }')
+    return user
+}
+
+updatePostForUser('ckjm73gof017c0808t6151odg', {
+    title:"List of ANYTHING"
+}).then((user) => {
+    console.log(JSON.stringify(user, undefined, 2))
+})
+
 // prisma.query.users(null, '{ id name posts { id title } }').then((data) => {
 //     console.log(JSON.stringify(data, undefined, 4))
 // })
@@ -33,19 +81,19 @@ const prisma = new Prisma({
 //     console.log(JSON.stringify(data, undefined, 4))
 // })
 
-prisma.mutation.updatePost({
-    data: {
-        published: true
-    },
-    where: {
-        id:"ckjm0wy0900wo0808xt0yc3uj"
-    }
-}, '{ id published }').then((data) => {
-    console.log(JSON.stringify(data, undefined, 2))
-    return prisma.query.posts(null, '{ id title body published }')
-}).then((data) => {
-    console.log(JSON.stringify(data, undefined, 2))
-})
+// prisma.mutation.updatePost({
+//     data: {
+//         published: true
+//     },
+//     where: {
+//         id:"ckjm0wy0900wo0808xt0yc3uj"
+//     }
+// }, '{ id published }').then((data) => {
+//     console.log(JSON.stringify(data, undefined, 2))
+//     return prisma.query.posts(null, '{ id title body published }')
+// }).then((data) => {
+//     console.log(JSON.stringify(data, undefined, 2))
+// })
 
 
 // to generate script generated file ...
