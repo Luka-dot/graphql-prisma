@@ -7,7 +7,21 @@ const prisma = new Prisma({
     endpoint: 'http://localhost:4466/'
 })
 
+// prisma.exists.Comment({
+//     id: "ckjljly0400n30808w13wpuz1"
+// }).then((exists) => {
+//     console.log(exists)
+// })
+
 const createPostForUser = async (authorId, data) => {
+    const userExists = await prisma.exists.User({
+        id: authorId
+    })
+
+    if (!userExists) {
+        throw new Error('User not found')
+    }
+
     const post = await prisma.mutation.createPost({
         data: {
             ...data,
@@ -17,22 +31,20 @@ const createPostForUser = async (authorId, data) => {
                 }
             }
         }
-    }, '{ id }')
-    const user = await prisma.query.user({
-        where: {
-            id: authorId
-        }
-    }, "{ id name email posts { id title published } }")
-    return user
+    }, '{ author { name email posts { id title published } } }')
+    
+    return post.author
 }
 
-// createPostForUser('ckjli8tkb000n08083i7a9mjf', {
-//     title: 'List of things',
-//     body: 'no books yet !',
-//     published: true
-// }).then((user) => {
-//     console.log(JSON.stringify(user, undefined, 2))
-// })
+createPostForUser('ckjli8tkb000n08083i7a9mjf', {
+    title: 'List of things',
+    body: 'no books yet !',
+    published: true
+}).then((user) => {
+    console.log(JSON.stringify(user, undefined, 2))
+}).catch((error) => {
+    console.log(error.message)
+})
 
 const updatePostForUser = async (postId, data) => {
     const post = await prisma.mutation.updatePost({
@@ -49,11 +61,11 @@ const updatePostForUser = async (postId, data) => {
     return user
 }
 
-updatePostForUser('ckjm73gof017c0808t6151odg', {
-    title:"List of ANYTHING"
-}).then((user) => {
-    console.log(JSON.stringify(user, undefined, 2))
-})
+// updatePostForUser('ckjm73gof017c0808t6151odg', {
+//     title:"List of ANYTHING"
+// }).then((user) => {
+//     console.log(JSON.stringify(user, undefined, 2))
+// })
 
 // prisma.query.users(null, '{ id name posts { id title } }').then((data) => {
 //     console.log(JSON.stringify(data, undefined, 4))
