@@ -52,7 +52,6 @@ const updatePostForUser = async (postId, data) => {
     })
 
     if (!postExists) {
-        
         throw new Error('Post not found.')
     }
 
@@ -67,16 +66,16 @@ const updatePostForUser = async (postId, data) => {
     //         id: post.author.id
     //     }
     // }, '{ id email posts { id text body } }')
-    return post
+    return post.author
 }
 
-updatePostForUser('ckjlj1h0500dp0808zlpxrux9', {
-    title:"List of ANYTHING"
-}).then((user) => {
-    console.log(JSON.stringify(user, undefined, 2))
-}).catch((error) => {
-    console.log("ERROR ", error.message)
-})
+// updatePostForUser('ckjlj1h0500dp0808zlpxrux9', {
+//     title:"List of ANYTHING"
+// }).then((user) => {
+//     console.log(JSON.stringify(user, undefined, 2))
+// }).catch((error) => {
+//     console.log("ERROR ", error.message)
+// })
 
 // prisma.query.users(null, '{ id name posts { id title } }').then((data) => {
 //     console.log(JSON.stringify(data, undefined, 4))
