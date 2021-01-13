@@ -6,7 +6,7 @@ import Subscription from './resolvers/subscription'
 import User from './resolvers/User'
 import Post from './resolvers/Post'
 import Comment from './resolvers/Comment'
-import './prisma'    // just running the file
+import prisma from './prisma'    
 
 // Spread operators plug in:  https://www.npmjs.com/package/babel-plugin-transform-object-rest-spread
 
@@ -23,8 +23,9 @@ const server = new GraphQLServer({
         Comment
     },
     context: {      
-        db,         // passing DB object to every single resolver regardles of file structure (ctx argument on every resolver)
-        pubsub
+        db,         // passing DB, pubsub and prisma objects to every single resolver regardles of file structure (ctx argument on every resolver)
+        pubsub,
+        prisma
     }
 })
 
