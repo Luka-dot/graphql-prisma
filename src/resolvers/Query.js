@@ -13,8 +13,7 @@ const Query = {
             }
         }
 
-        return prisma.query.users(opArg, info)
-    
+        return prisma.query.users(opArg, info)   
     },
     posts(parent,args, { db, prisma }, info) {  // destructuring DB of ctx     (parent,args, ctx, info)
 
@@ -31,20 +30,15 @@ const Query = {
         }
 
         return prisma.query.posts(opArg, info)
-        
-        // if (!args.query) {
-        //     return db.posts
-        // }
-
-        // return db.posts.filter((post) => {
-        //     return post.title.toLowerCase().includes(args.query.toLowerCase()) || post.body.toLowerCase().includes(args.query.toLowerCase())
-        // })
     },
-    comments(parent, args, { db }, info) {
-        if (!args.query) {
-        return db.comments
+    comments(parent, args, { db, prisma }, info) {
+        const opArg = {}
+
+        if (args.query) {
+            id: args.query
         }
 
+        return prisma.query.comments(opArg, info)
         
     },
     me() {
