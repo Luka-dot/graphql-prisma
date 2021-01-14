@@ -17,7 +17,16 @@ const Query = {
     
     },
     posts(parent,args, { db, prisma }, info) {  // destructuring DB of ctx     (parent,args, ctx, info)
-        return prisma.query.posts(null, info)
+
+        const opArg = {}
+
+        if (args.query) {
+            opArg.where = {
+                title_contains: args.query
+            }
+        }
+
+        return prisma.query.posts(opArg, info)
         
         // if (!args.query) {
         //     return db.posts
