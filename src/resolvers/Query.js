@@ -22,7 +22,11 @@ const Query = {
 
         if (args.query) {
             opArg.where = {
+                OR: [{
                 title_contains: args.query
+                }, {
+                body_contains: args.query
+                }]
             }
         }
 
