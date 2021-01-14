@@ -1,14 +1,20 @@
 const Query = {
     users(parent, args, { db, prisma }, info) {
-       return prisma.query.users(null, info)
-       
-        // if (!args.query) {
-        //     return db.users
-        // }
+        // setting operation argument for prisma = object
+        const opArg = {}
 
-        // return db.users.filter((user) => {
-        //     return user.name.toLowerCase().includes(args.query.toLowerCase())
-        // })
+        if (args.query) {
+            opArg.where = {
+                OR: [{
+                    name_contains: args.query
+                }, {
+                    email_contains: args.query
+                }]
+            }
+        }
+
+        return prisma.query.users(opArg, info)
+    
     },
     posts(parent,args, { db, prisma }, info) {  // destructuring DB of ctx     (parent,args, ctx, info)
         return prisma.query.posts(null, info)
