@@ -17,7 +17,11 @@ const Mutation = {
             throw new Error('User not found!')
         }
 
-        return prisma.mutation.deleteUser( { where: { id: args.data } }, info)  
+        return prisma.mutation.deleteUser({ 
+            where: { 
+                id: args.id 
+                } 
+            }, info)  
 
         // db.posts = db.posts.filter((post) => {
         //     const match = post.author === arg.id
