@@ -1,56 +1,39 @@
 import { v4 as uuidv4 } from 'uuid';
 
 const Mutation = {
-    createUser(parent,arg, { db }, info) {
-        const emailTaken = db.users.some((user) => {
-            return user.email === arg.data.email
-        })
-
+    async createUser(parent,args, { prisma }, info) {
+        const emailTaken = await prisma.exists.User({ email: args.data.email})
         if (emailTaken) {
             throw new Error('This email has been already taken.')
         }
 
-        const user = {
-            id: uuidv4(),
-            ...arg.data
-        }
-        // const user = {
-        //     id: uuidv4(),
-        //     name: arg.name,
-        //     email: arg.email,
-        //     age: arg.age
-        // }
+        return prisma.mutation.createUser({ data: args.data }, info)  // info ensures that relation data will come back if query for
 
-        db.users.push(user)
-
-        return user
     },
-    deleteUser(parent, arg, { db }, info) {
-        const userIndex = db.users.findIndex((user) => {
-            return user.id === arg.id
-        })
+    async deleteUser(parent, args, { prisma }, info) {
+        const userExists = await prisma.exists.User({ id: args.id})
 
-        if (userIndex === -1) {
+        if (!userExists) {
             throw new Error('User not found!')
         }
 
-        const deletedUsers = db.users.splice(userIndex, 1)  // so this deletedUser can be returned. Mutation expects return User!
+        return prisma.mutation.deleteUser( { where: { id: args.data } }, info)  
 
-        db.posts = db.posts.filter((post) => {
-            const match = post.author === arg.id
+        // db.posts = db.posts.filter((post) => {
+        //     const match = post.author === arg.id
 
-            if (match) {
-                db.comments = db.comments.filter((comment) => {
-                    return comment.post !== post.id
-                })
-            }
+        //     if (match) {
+        //         db.comments = db.comments.filter((comment) => {
+        //             return comment.post !== post.id
+        //         })
+        //     }
 
-            return !match
-        })
+        //     return !match
+        // })
 
-        db.comments = db.comments.filter((comment) => comment.author !== arg.id)
+        // db.comments = db.comments.filter((comment) => comment.author !== arg.id)
 
-        return deletedUsers[0]
+        // return deletedUsers[0]
 
     },
     updateUser(parent, arg, { db}, info) {
