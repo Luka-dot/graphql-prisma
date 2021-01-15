@@ -55,90 +55,48 @@ const Mutation = {
     },
     async updatePost(parent, args, { prisma, pubsub }, info) {
         return prisma.mutation.updatePost({
-            data:{
-                title: args.data.title,
-                body: args.data.body,
-                published: args.data.published
-            },
+            data: args.data,
             where:{
                 id: args.id
             }
         }, info)
     },
-    createComment(parent, arg, { db, pubsub }, info) {
-        const verifyAuthor = db.users.some((user) => { 
-            return user.id === arg.data.author
-        }) 
-
-        const verifyPost = db.posts.some((post) => {
-            return (post.published === true && post.id) === arg.data.post
-        })
-
-        if (!verifyAuthor) {
-            throw new Error('Pleace check author id.')
-        } else if (!verifyPost) {
-            throw new Error('post is not published or does not exist.')
-        }
-
-        const comment = {
-            id: uuidv4(),
-            ...arg.data
-        }
-        // const comment = {
-        //     id: uuidv4(),
-        //     text: arg.text,
-        //     author: arg.author,
-        //     post: arg.post
-        // }
-
-        db.comments.push(comment)
-        pubsub.publish(`comment ${arg.data.post}`, { 
-            comment: {
-                mutation: 'COMMENT CREATED',
-                data: comment
+    async createComment(parent, args, { prisma, pubsub }, info) {
+        return prisma.mutation.createComment({
+            data:{
+                text: {
+                    text: args.data.text,
+                    author:{
+                        connect:{
+                            id: args.data.author
+                        }
+                    },
+                    post:{
+                        connect:{
+                            id: args.data.post
+                        }
+                    }
+                }
             }
-        })
-
-        return comment
+        }, info)
     },
-    deleteComment(parent, arg, { db, pubsub }, info) {
-        const commentIndex = db.comments.findIndex((comment) => comment.id === arg.id)
-
-        if (!commentIndex === -1) {
-            throw new Error('comment not found.')
-        }
-
-        const deletedComment = db.comments.splice(commentIndex, 1)
-
-        pubsub.publish(`comment ${deletedComment[0].post}`, {
-            comment: {
-                mutation: 'COMMENT DELETED',
-                data: deletedComment[0]
-            }
-        })
-
-        return deletedComment[0]
+    deleteComment(parent, args, { prisma, pubsub }, info) {
+        return prisma.mutation.deleteComment({
+            where:{
+                id: args.id
+            },
+            data: args.data
+        }, info)
     },
-    updateComment(parent, arg, { db, pubsub }, info) {
-        const { id, data } = arg
-        const commentToUpdate = db.comments.find((comment) => comment.id === id )
-
-        if (!commentToUpdate) {
-            throw new Error('comment not found.')
-        }
-
-        if (typeof data.text === 'string') {
-            commentToUpdate.text = data.text
-        }
-
-        pubsub.publish(`comment ${commentToUpdate.post}`, {
-            comment: {
-                mutation: 'UPDATED COMMENT',
-                data: commentToUpdate
+    updateComment(parent, args, { dbprisma, pubsub }, info) {
+        return prisma.mutation.createComment({
+            where: {
+                id: args.id
+            },
+            data:{
+                data: args.data
             }
-        })
-
-        return commentToUpdate
+        }, info)
     }
 }
 
