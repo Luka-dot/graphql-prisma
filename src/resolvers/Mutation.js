@@ -32,110 +32,38 @@ const Mutation = {
             data: args.data
         }, info)
     },
-    createPost(parent, arg, { db, pubsub }, info) {
-        const verifyAuthor = db.users.some((user) => { 
-            return user.id === arg.data.author
-        }) 
-
-        if (!verifyAuthor) {
-            throw new Error('User not found.')
-        }
-
-        const post = {
-            id: uuidv4(),
-            ...arg.data
-        }
-
-        // const post = {
-        //     id: uuidv4(),
-        //     title: arg.title,
-        //     body: arg.body,
-        //     published: arg.published,
-        //     author: arg.author
-        // }
-
-        db.posts.push(post)
-        if (post.published === true) {
-            pubsub.publish('post', {
-                post: {
-                    mutation: 'POST CREATED',
-                    data: post
-                }
-            })
-        }
-
-        return post
-    },
-    deletePost(parent, arg, { db, pubsub }, info) {
-        const existingPostIndex = db.posts.findIndex((post) => {
-            return post.id === arg.id
-        })
-
-        if (existingPostIndex === -1) {
-            throw new Error('Post not found.')
-        }
-
-        const postToRemove = db.posts.splice(existingPostIndex, 1)
-
-        db.comments = db.comments.filter((comment) => comment.post !== arg.id)
-
-        if (postToRemove[0].published === true) {
-            pubsub.publish('post', {
-                post: {
-                    mutation: 'POST DELETED',
-                    data: postToRemove[0]
-                }
-            })
-        }
-
-        return postToRemove[0]
-    },
-    updatePost(parent, arg, { db, pubsub }, info) {
-        const { id, data } = arg
-        const postToUpdate = db.posts.find((post) => post.id === id)
-        const originalPost = {...postToUpdate}
-
-        if (!postToUpdate) {
-            throw new Error('post not found.')
-        }
-
-        if (typeof data.title === 'string') {
-            postToUpdate.title = data.title
-        }
-
-        if (typeof data.body === 'string') {
-            postToUpdate.body = data.body
-        }
-        
-        if (typeof data.published === 'boolean') {
-            postToUpdate.published = data.published 
-
-            if (originalPost.published === true && !postToUpdate.published ) {
-                // delete
-                pubsub.publish('post', {
-                    post: {
-                        mutation: 'DELETED',
-                        data: originalPost
+    async createPost(parent, args, { prisma, pubsub }, info) {
+        return prisma.mutation.createPost({
+            data:{
+                title: args.data.title,
+                body: args.data.body,
+                published: args.data.published,
+                author:{
+                    connect:{
+                        id: args.data.author
                     }
-                })
-            } else if (!originalPost.published && postToUpdate.published) {
-                // create
-                pubsub.publish('post', {
-                    post: 'CREATED',
-                    data: postToUpdate
-                })
-            }
-        } else if (postToUpdate.published) {
-            // update
-            pubsub.publish('post', {
-                post: {
-                    mutation: 'UPDATED',
-                    data: postToUpdate
                 }
-            })
-        }
-
-        return postToUpdate
+            }
+        }, info)
+    },
+    async deletePost(parent, args, { prisma, pubsub }, info) {
+        return prisma.mutation.deletePost({
+            where: {
+                id: args.id
+            }
+        }, info)
+    },
+    async updatePost(parent, args, { prisma, pubsub }, info) {
+        return prisma.mutation.updatePost({
+            data:{
+                title: args.data.title,
+                body: args.data.body,
+                published: args.data.published
+            },
+            where:{
+                id: args.id
+            }
+        }, info)
     },
     createComment(parent, arg, { db, pubsub }, info) {
         const verifyAuthor = db.users.some((user) => { 
