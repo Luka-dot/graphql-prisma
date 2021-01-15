@@ -23,50 +23,14 @@ const Mutation = {
                 } 
             }, info)  
 
-        // db.posts = db.posts.filter((post) => {
-        //     const match = post.author === arg.id
-
-        //     if (match) {
-        //         db.comments = db.comments.filter((comment) => {
-        //             return comment.post !== post.id
-        //         })
-        //     }
-
-        //     return !match
-        // })
-
-        // db.comments = db.comments.filter((comment) => comment.author !== arg.id)
-
-        // return deletedUsers[0]
-
     },
-    updateUser(parent, arg, { db}, info) {
-        const { id, data } = arg
-        const userToUpdate = db.users.find((user) => user.id === id)
-
-        if (!userToUpdate) {
-            throw new Error('User not found')
-        }
-
-        if (typeof data.email === 'string') {
-            const emailTaken = db.users.some((user) => user.email === data.email)
-
-            if (emailTaken) {
-                throw new Error('email in use, choose different email')
-            }
-
-            userToUpdate.email = data.email
-        }
-
-        if (typeof data.name === 'string') {
-            userToUpdate.name = data.name
-        }
-
-        if (typeof data.age !== 'undefined') {
-            userToUpdate.age = data.age
-        }
-
-        return userToUpdate
+    async updateUser(parent, args, { prisma }, info) {
+        return prisma.mutation.updateUser({
+            where:{
+                id: args.id
+            },
+            data: args.data
+        }, info)
     },
     createPost(parent, arg, { db, pubsub }, info) {
         const verifyAuthor = db.users.some((user) => { 
