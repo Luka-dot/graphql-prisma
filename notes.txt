@@ -1,0 +1,33 @@
+Aplication
+Prisma --> Node --> Client (graphql Playground)
+
+docker-compose up -d
+
+graphql-bindings are depricated and graphql-cli and codegen needs to be installed to use with Prisma latest version
+-   npm install  @graphql-cli/codegen @graphql-codegen/schema-ast --dev
+-   inside root folder (graphql-prisma)
+
+        schema: http://localhost:4466
+            extensions:
+            codegen:
+                generates:
+                ./src/generated/prisma.graphql:
+                    plugins:
+                    - schema-ast
+
+-    script to package.json -
+
+    "get-schema": "graphql-codegen --config ./codegen.yml"
+
+-   npm run get-schema
+
+-   also add the following code to your prisma.yml to auto-generate schema file on each "prisma deploy" -
+
+endpoint: http://localhost:4466
+datamodel: datamodel.graphql
+generate:
+  - generator: graphql-schema
+    output: ../src/generated/prisma.graphql
+hooks:
+  post-deploy:
+    - prisma generate

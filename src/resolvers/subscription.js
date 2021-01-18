@@ -13,8 +13,16 @@ const Subscription = {
         }
     },
     post: {
-        subscribe(parent, arg, { pubsub }, info) {
-            return pubsub.asyncIterator('post')
+        subscribe(parent, arg, { prisma }, info) {
+            return prisma.subscription.post({
+                where:{
+                    node:{
+                        published: true
+                    }
+                }
+            }, info)
+
+         //   return pubsub.asyncIterator('post')
         }
     }
 }
