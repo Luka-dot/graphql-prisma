@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
-   
+    "get-schema-new": "graphql-codegen --config ./codegen.yml",
     "get-schema": "get-graphql-schema http://localhost:4466 > src/generated/prisma.graphql -h \"Authorization\"=\"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNjEwOTg3NDEyLCJleHAiOjE2MTE1OTIyMTJ9.bVDJN5xd-axo86GTnnF9qEJ-yjE8VR_abJbzYZ-VWCM\""
   },
   "author": "",
@@ -16,10 +16,10 @@
     "@graphql-codegen/schema-ast": "^1.18.1",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "bcryptjs": "^2.4.3",
     "graphql-cli": "^4.1.0",
     "graphql-yoga": "^1.18.3",
-    "prisma-binding": "^2.3.16",
-    "uuid": "^8.3.2"
+    "prisma-binding": "^2.3.16"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
