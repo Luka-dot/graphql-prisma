@@ -31,3 +31,10 @@ generate:
 hooks:
   post-deploy:
     - prisma generate
+
+- TOKEN in dev for localhost:4466
+
+  in headers add:
+  {
+  "Authorization":"Bearer ( CD prisma and run prisma1 token then add token here )"
+}

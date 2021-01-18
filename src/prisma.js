@@ -4,7 +4,8 @@ import { Prisma } from 'prisma-binding'
 // file .graphqlconfig created and configured (need npm prisma-binding and graphql-cli)
 const prisma = new Prisma({
     typeDefs: 'src/generated/prisma.graphql',
-    endpoint: 'http://localhost:4466/'
+    endpoint: 'http://localhost:4466/',
+    secret: 'supersecrettext'
 })
 
 export { prisma as default } 
