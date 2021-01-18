@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "get-schema": "graphql-codegen --config ./codegen.yml"
+   
+    "get-schema": "get-graphql-schema http://localhost:4466 > src/generated/prisma.graphql -h \"Authorization\"=\"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNjEwOTg3NDEyLCJleHAiOjE2MTE1OTIyMTJ9.bVDJN5xd-axo86GTnnF9qEJ-yjE8VR_abJbzYZ-VWCM\""
   },
   "author": "",
   "license": "ISC",

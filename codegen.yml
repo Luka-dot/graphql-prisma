@@ -5,3 +5,5 @@ extensions:
       ./src/generated/prisma.graphql:
         plugins:
           - schema-ast
+
+          
