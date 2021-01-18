@@ -88,7 +88,7 @@ const Mutation = {
             data: args.data
         }, info)
     },
-    updateComment(parent, args, { dbprisma, pubsub }, info) {
+    updateComment(parent, args, { prisma, pubsub }, info) {
         return prisma.mutation.createComment({
             where: {
                 id: args.id
