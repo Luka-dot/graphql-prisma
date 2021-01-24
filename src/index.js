@@ -22,10 +22,13 @@ const server = new GraphQLServer({
         Post,
         Comment
     },
-    context: {      
-        db,         // passing DB, pubsub and prisma objects to every single resolver regardles of file structure (ctx argument on every resolver)
-        pubsub,
-        prisma
+    context(request) {     // context is set as a function. That allows acess to headers in mutation.js
+        return {      
+            db,         // passing DB, pubsub and prisma objects to every single resolver regardles of file structure (ctx argument on every resolver)
+            pubsub,
+            prisma,
+            request
+        }
     }
 })
 
