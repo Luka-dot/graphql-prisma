@@ -52,15 +52,27 @@ const Query = {
         }
     },
 
-    post(parent, args, { prisma, request }, info) {
+    async post(parent, args, { prisma, request }, info) {
         const userId = getUserId(request, false)
 
-        return {
-            id: '1233098',
-            title: 'First post',
-            body: 'This is a post to my new grapQL API',
-            published: true
-        }
+        const posts = await prisma.query.posts({
+            where: {
+                id: args.id,
+                OR: [{
+                    published: true
+                }, {
+                    author: {
+                        id: userId
+                    }
+                }]
+            }
+    }, info)
+
+    if (posts.length === 0) {
+        throw new Error('Post not found')
+    }
+
+    return posts[0]
     }
 }
 
