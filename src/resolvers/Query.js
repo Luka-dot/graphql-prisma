@@ -1,3 +1,5 @@
+import getUserId from '../utils/getUserId'
+
 const Query = {
     users(parent, args, { db, prisma }, info) {
         // setting operation argument for prisma = object
@@ -50,7 +52,9 @@ const Query = {
         }
     },
 
-    post() {
+    post(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request, false)
+
         return {
             id: '1233098',
             title: 'First post',
