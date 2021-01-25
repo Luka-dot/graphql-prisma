@@ -43,13 +43,22 @@ const Query = {
         return prisma.query.comments(opArg, info)
         
     },
-    me() {
-        return {
-            id: '123345678',
-            name: 'Mike',
-            email: 'mike@gmail.com',
-            age: 28
+    async me(parent, args, { request, prisma }, info) {
+        const userId = getUserId(request)
+        const verifiedUser = await prisma.exists.User({
+            id: userId
+        })
+
+        if (!verifiedUser) {
+            throw new Error('User not verified')
         }
+
+        return prisma.query.user({
+            where: {
+                id: userId
+            }
+        })
+        
     },
 
     async post(parent, args, { prisma, request }, info) {
