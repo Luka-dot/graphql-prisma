@@ -18,20 +18,40 @@ const Query = {
         return prisma.query.users(opArg, info)   
     },
     posts(parent,args, { db, prisma }, info) {  // destructuring DB of ctx     (parent,args, ctx, info)
-
-        const opArg = {}
+        const opArg = {
+            where: {
+                published: true
+            }
+        }
 
         if (args.query) {
-            opArg.where = {
-                OR: [{
+            opArg.where.OR = [{
                 title_contains: args.query
                 }, {
                 body_contains: args.query
                 }]
-            }
         }
 
         return prisma.query.posts(opArg, info)
+    },
+    myPosts(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+        const opArgs = {
+            where: {
+                author: {
+                    id: userId
+                }
+            }
+        }
+
+        if (args.query) {
+            opArgs.where.OR = [{
+                title_contains: args.query
+            }, {
+                body_contains: args.query
+            }]
+        }
+        return prisma.query.posts(opArgs, info)
     },
     comments(parent, args, { db, prisma }, info) {
         const opArg = {}
