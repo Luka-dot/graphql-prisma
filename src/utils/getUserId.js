@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken'
 
 const getUserId = (request, requireAuth = true) => {
-    const header = request.request.headers.authorization
+    // tenary below is for subscriptions since HTTPS headers are send in connection and not in request.header
+    const header = request.request ? request.request.headers.authorization : request.connection.context.authorization
 
     if (header) {
         const token = header.replace('Bearer ', '')
         const decoded = jwt.verify(token, 'thisissecret')
-        console.log('token: ', decoded)
+      
         return decoded.userId
     }
 
