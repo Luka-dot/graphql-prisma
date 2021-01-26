@@ -5,7 +5,8 @@ const User = {
     // this is done to prevent relation querry that can see other users emails
     email(parent, args, { request }, info) {
         const userId = getUserId(request, false)
-
+        console.log(userId, parent.id)
+console.log('parent ', parent.email)
         if (userId && userId === parent.id) {
             return parent.email
         } else {

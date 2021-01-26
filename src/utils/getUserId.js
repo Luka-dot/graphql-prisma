@@ -1,18 +1,20 @@
 import jwt from 'jsonwebtoken'
 
 const getUserId = (request, requireAuth = true) => {
-    const header = request.request.headers.authorization
+//    const header = request.request.headers.authorization
+    const header = request.request.body.variables.Authorization
 
     if (header) {
         const token = header.replace('Bearer ', '')
         const decoded = jwt.verify(token, 'thisissecret')
-
+        console.log('token: ', decoded)
         return decoded.userId
     }
 
     if (requireAuth) {
-        throw new Error('Authentication required')
-    }
+        throw new Error('Authentication required - getYserId.js')
+    } 
+    
     return null
 }
 
