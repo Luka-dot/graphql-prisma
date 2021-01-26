@@ -1,13 +1,12 @@
 import jwt from 'jsonwebtoken'
 
 const getUserId = (request, requireAuth = true) => {
-//    const header = request.request.headers.authorization
-    const header = request.request.body.variables.Authorization
+    const header = request.request.headers.authorization
 
     if (header) {
         const token = header.replace('Bearer ', '')
         const decoded = jwt.verify(token, 'thisissecret')
-        
+        console.log('token: ', decoded)
         return decoded.userId
     }
 

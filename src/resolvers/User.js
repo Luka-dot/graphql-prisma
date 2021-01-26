@@ -14,6 +14,18 @@ const User = {
                 return null
             }
         }
+    },
+    posts: {
+        fragment: 'fragment userId on User { id }',
+        resolve(parent, args, { request }, info) {
+            const userId = getUserId(request, false)
+            console.log(' User and Posts ', userId)
+            if (userId && userId === parent.id) {
+                return parent.posts
+            } else {
+                return null
+            }
+        }
     }
 }
 
