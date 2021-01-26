@@ -9,7 +9,7 @@ const Query = {
             opArg.where = {
                 OR: [{
                     name_contains: args.query
-                }, {
+                }, {   //  search by email is not ideal since someone can "check" if this email is being used on this site
                     email_contains: args.query
                 }]
             }
