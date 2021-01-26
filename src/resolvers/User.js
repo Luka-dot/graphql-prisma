@@ -1,5 +1,17 @@
+import getUserId from '../utils/getUserId'
+
 const User = {
-    
+    // conditionally returning email as string or null.
+    // this is done to prevent relation querry that can see other users emails
+    email(parent, args, { request }, info) {
+        const userId = getUserId(request, false)
+
+        if (userId && userId === parent.id) {
+            return parent.email
+        } else {
+            return null
+        }
+    }
 }
 
 export { User as default }
