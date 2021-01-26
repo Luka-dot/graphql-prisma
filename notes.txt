@@ -34,7 +34,27 @@ hooks:
 
 - TOKEN in dev for localhost:4466
 
+run: prisma.token   inside Prisma directory
+
   in headers add:
   {
   "Authorization":"Bearer ( CD prisma and run prisma1 token then add token here )"
+}
+
+
+
+FRAGMENTS 
+
+- example
+
+query {
+  users {
+    ...userFields
+  }
+}
+
+fragment userFields on User {
+  id
+  name
+  email
 }

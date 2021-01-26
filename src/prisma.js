@@ -1,11 +1,13 @@
 import { Prisma } from 'prisma-binding'
+import { fragmentReplacements } from './resolvers/index'
 
 // configure new prisma endpoint. Takes one arg {}
 // file .graphqlconfig created and configured (need npm prisma-binding and graphql-cli)
 const prisma = new Prisma({
     typeDefs: 'src/generated/prisma.graphql',
     endpoint: 'http://localhost:4466/',
-    secret: 'supersecrettext'
+    secret: 'supersecrettext',
+    fragmentReplacements
 })
 
 export { prisma as default } 
