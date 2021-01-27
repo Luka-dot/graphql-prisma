@@ -3,7 +3,10 @@ import getUserId from '../utils/getUserId'
 const Query = {
     users(parent, args, { db, prisma }, info) {
         // setting operation argument for prisma = object
-        const opArg = {}
+        const opArg = {
+            first: args.first,
+            skip: args.skip
+        }
 
         if (args.query) {
             opArg.where = {
@@ -19,6 +22,8 @@ const Query = {
     },
     posts(parent,args, { db, prisma }, info) {  // destructuring DB of ctx     (parent,args, ctx, info)
         const opArg = {
+            first: args.first,
+            skip: args.skip,
             where: {
                 published: true
             }
