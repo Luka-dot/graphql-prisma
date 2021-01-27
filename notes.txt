@@ -58,3 +58,8 @@ fragment userFields on User {
   name
   email
 }
+
+
+*********   qraphql-import 
+setting up for data sorting and import of enums to schema.graphql
+this is install with graphql-yoga
