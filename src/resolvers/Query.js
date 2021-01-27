@@ -44,10 +44,10 @@ const Query = {
     myPosts(parent, args, { prisma, request }, info) {
         const userId = getUserId(request)
         const opArgs = {
+            first: args.first,
+            skip: args.skip,
+            after: args.after,
             where: {
-                first: args.first,
-                skip: args.skip,
-                after: args.after,
                 author: {
                     id: userId
                 }
