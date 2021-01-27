@@ -27,6 +27,7 @@ const Query = {
             first: args.first,
             skip: args.skip,
             after: args.after,
+            orderBy: args.orderBy,
             where: {
                 published: true
             }
@@ -48,6 +49,7 @@ const Query = {
             first: args.first,
             skip: args.skip,
             after: args.after,
+            orderBy: args.orderBy,
             where: {
                 author: {
                     id: userId
@@ -68,7 +70,8 @@ const Query = {
         const opArg = {
             first: args.first,
             skip: args.skip,
-            after: args.after
+            after: args.after,
+            orderBy: args.orderBy
         }
 
         return prisma.query.comments(opArg, info)
