@@ -5,7 +5,8 @@ const Query = {
         // setting operation argument for prisma = object
         const opArg = {
             first: args.first,
-            skip: args.skip
+            skip: args.skip,
+            after: args.after
         }
 
         if (args.query) {
@@ -24,6 +25,7 @@ const Query = {
         const opArg = {
             first: args.first,
             skip: args.skip,
+            after: args.after,
             where: {
                 published: true
             }
@@ -43,6 +45,9 @@ const Query = {
         const userId = getUserId(request)
         const opArgs = {
             where: {
+                first: args.first,
+                skip: args.skip,
+                after: args.after,
                 author: {
                     id: userId
                 }
@@ -59,10 +64,10 @@ const Query = {
         return prisma.query.posts(opArgs, info)
     },
     comments(parent, args, { db, prisma }, info) {
-        const opArg = {}
-
-        if (args.query) {
-            id: args.query
+        const opArg = {
+            first: args.first,
+            skip: args.skip,
+            after: args.after
         }
 
         return prisma.query.comments(opArg, info)
