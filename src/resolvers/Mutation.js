@@ -19,7 +19,7 @@ const Mutation = {
 
         return {
             user,
-            token: jwt.sign({ userId: user.id }, 'thisissecret')
+            token: jwt.sign({ userId: user.id }, 'thisissecret', { expiresIn: '7 days' })
         }
     },
     async deleteUser(parent, args, { prisma, request }, info) {
@@ -60,7 +60,7 @@ const Mutation = {
 
         return {
             user,
-            token: jwt.sign({ userId: user.id }, 'thisissecret')
+            token: jwt.sign({ userId: user.id }, 'thisissecret', { expiresIn: '7 days' })
         }
     },
     createPost(parent, args, { prisma, request }, info) {
