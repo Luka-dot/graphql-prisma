@@ -15,7 +15,6 @@ services:
             connector: postgres
             host: ec2-3-216-181-219.compute-1.amazonaws.com
             database: d7qvbqsive04h6
-            schema: public
             user: smgcddyxushesc
             password: 6ea2b0e3ceb340cde778f14a94cebab43075651e2a1b8388481b78c9158a8ab0
             ssl: true
