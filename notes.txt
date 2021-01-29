@@ -63,3 +63,7 @@ fragment userFields on User {
 *********   qraphql-import 
 setting up for data sorting and import of enums to schema.graphql
 this is install with graphql-yoga
+
+*************** env deploy command
+prisma1 deploy -e ../config/dev.env
+needs to be logged in to prisma    prisma1 login   command
