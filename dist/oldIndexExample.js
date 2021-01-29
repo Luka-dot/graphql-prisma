@@ -1,60 +1,45 @@
-import { message } from './myModule';
-import { adding, substracting } from './math';
+'use strict';
 
-console.log(message);
+var _myModule = require('./myModule');
 
-console.log(adding(2, 2));
-substracting( 10, 5);
+var _math = require('./math');
+
+console.log(_myModule.message);
+
+console.log((0, _math.adding)(2, 2));
+(0, _math.substracting)(10, 5);
 
 // Type definitions (schema)
-const typeDefs = `
-    type Query {
-        id: ID!
-        name: String!
-        age: Int!
-        employed: Boolean!
-        gpa: Float                 
-    }
-    
-    type User {
-        id: ID!
-        name: String!
-        email: String!
-        age: Int
-    } 
-`
+var typeDefs = '\n    type Query {\n        id: ID!\n        name: String!\n        age: Int!\n        employed: Boolean!\n        gpa: Float                 \n    }\n    \n    type User {\n        id: ID!\n        name: String!\n        email: String!\n        age: Int\n    } \n';
 // Resolvers
-const resolvers = {
+var resolvers = {
     Query: {
-        id() {
-            return 'ZXT234'
+        id: function id() {
+            return 'ZXT234';
         },
-        name() {
-            return 'Lukas'
+        name: function name() {
+            return 'Lukas';
         },
-        age() {
-            return 27
+        age: function age() {
+            return 27;
         },
-        employed() {
-            return true
+        employed: function employed() {
+            return true;
         },
-        gpa() {
-            return 3.77  // can return null since we did not define type with !
+        gpa: function gpa() {
+            return 3.77; // can return null since we did not define type with !
         }
     }
-}
+};
 
-const server = new GraphQLServer({
+var server = new GraphQLServer({
     typeDefs: typeDefs,
     resolvers: resolvers
-})
+});
 
-server.start(() => {
-    console.log('Server is running!!!')
-})
-
-
-
+server.start(function () {
+    console.log('Server is running!!!');
+});
 
 // // Type definitions (schema)
 // const typeDefs = `
@@ -66,14 +51,14 @@ server.start(() => {
 //         me:  User!
 //         post: Post!
 //     }
-    
+
 //     type User {
 //         id: ID!
 //         name: String!
 //         email: String!
 //         age: Int
 //     }
-    
+
 //     type Post {
 //         id: ID!
 //         title: String!

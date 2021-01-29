@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
+    "start": "",
+    "heroku-postbuild": "babel src --out-dir dist --copy-files",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "get-schema-new": "graphql-codegen --config ./codegen.yml",
     "get-schema": "get-graphql-schema http://localhost:4466 > src/generated/prisma.graphql -h \"Authorization\"=\"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNjExNzY5NDE0LCJleHAiOjE2MTIzNzQyMTR9.IgyQhr1c3utlXNmtmkoRHA-DOBB8X3BVjcT7N8IH8hQ\""
@@ -17,6 +19,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
+    "env-cmd": "^10.1.0",
     "graphql-cli": "^4.1.0",
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",

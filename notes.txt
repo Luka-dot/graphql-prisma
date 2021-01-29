@@ -67,3 +67,10 @@ this is install with graphql-yoga
 *************** env deploy command
 prisma1 deploy -e ../config/dev.env
 needs to be logged in to prisma    prisma1 login   command
+
+************** env set  for node server deployment
+change index.js to add optional port for Heroku
+changed prisma.js   to have endpoint generated dynamicaly 
+npm install env-cmd    then add in package.json new "dev" script   then run  npm run dev
+
+set heroku-postbuild script   then  npm run heroku-postbuild  (to test)

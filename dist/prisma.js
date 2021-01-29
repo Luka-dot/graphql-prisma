@@ -1,16 +1,24 @@
-import { Prisma } from 'prisma-binding'
-import { fragmentReplacements } from './resolvers/index'
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _prismaBinding = require('prisma-binding');
+
+var _index = require('./resolvers/index');
 
 // configure new prisma endpoint. Takes one arg {}
 // file .graphqlconfig created and configured (need npm prisma-binding and graphql-cli)
-const prisma = new Prisma({
+var prisma = new _prismaBinding.Prisma({
     typeDefs: 'src/generated/prisma.graphql',
     endpoint: process.env.PRISMA_ENDPOINT,
     secret: 'supersecrettext',
-    fragmentReplacements
-})
+    fragmentReplacements: _index.fragmentReplacements
+});
 
-export { prisma as default } 
+exports.default = prisma;
 
 // // prisma.exists.Comment({
 // //     id: "ckjljly0400n30808w13wpuz1"
@@ -37,7 +45,7 @@ export { prisma as default }
 //             }
 //         }
 //     }, '{ author { name email posts { id title published } } }')
-    
+
 //     return post.author
 // }
 
@@ -73,7 +81,6 @@ export { prisma as default }
 //     // }, '{ id email posts { id text body } }')
 //     return post.author
 // }
-
 
 
 //**    Old code   ********/

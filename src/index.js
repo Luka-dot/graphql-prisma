@@ -20,8 +20,8 @@ const server = new GraphQLServer({
     },
     fragmentReplacements
 })
-
-server.start(() => {
+// port is for Heroku port on production
+server.start({ port: process.env.PORT || 4000 },() => {
     console.log('Server is running!!!')
 })
 
