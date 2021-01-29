@@ -74,3 +74,6 @@ changed prisma.js   to have endpoint generated dynamicaly
 npm install env-cmd    then add in package.json new "dev" script   then run  npm run dev
 
 set heroku-postbuild script   then  npm run heroku-postbuild  (to test)
+
+INSTALL   npm install @babel/polyfill   add to index.js  import '@babel/polyfill'  to be able use ASYNC/AWAIT in production 
+npm start   --all set
