@@ -6,13 +6,13 @@ const getUserId = (request, requireAuth = true) => {
 
     if (header) {
         const token = header.replace('Bearer ', '')
-        const decoded = jwt.verify(token, 'thisissecret')
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
       
         return decoded.userId
     }
 
     if (requireAuth) {
-        throw new Error('Authentication required - getYserId.js')
+        throw new Error('Authentication required - getUserId.js')
     } 
     
     return null
