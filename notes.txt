@@ -72,6 +72,7 @@ needs to be logged in to prisma    prisma1 login   command
 change index.js to add optional port for Heroku
 changed prisma.js   to have endpoint generated dynamicaly 
 npm install env-cmd    then add in package.json new "dev" script   then run  npm run dev
+"start": "env-cmd -f ./config/prod.env node dist/index.js"
 
 set heroku-postbuild script   then  npm run heroku-postbuild  (to test)
 
